@@ -1,5 +1,6 @@
 package github.portfolio;
 
+
 /**
  * Manages the state and flow of a Tic Tac Toe game.
  * Tracks whose turn it is and evaluates the board after each move.
@@ -81,7 +82,7 @@ public class Game {
 
     /**
      * Returns true when every cell is occupied and there is no winner.
-     * Uses a nested loop to scan every cell for a null (empty) slot.
+     * Loop-based check chosen for readability over the stream alternative.
      */
     public boolean isDraw() {
         if (checkWinner() != null) return false;
