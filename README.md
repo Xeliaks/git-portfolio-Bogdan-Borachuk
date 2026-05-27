@@ -55,3 +55,10 @@ This repository was built to practice the following Git workflows:
 | Merge conflict | `Game.java` conflicted between `main` and `feature/player-input` |
 | Meaningful commits | Imperative mood, one logical change per commit |
 | Proper .gitignore | Excludes `.gradle/`, `build/`, `*.class` |
+
+### What is a three-way merge?
+
+A fast-forward merge simply moves the branch pointer forward — no real combining happens.
+A **three-way merge** occurs when both branches have diverged: Git finds the common ancestor
+commit and combines the changes from both sides into a new merge commit. You can see this
+in the git log graph as two lines joining into one (`--no-ff` preserves this history).
