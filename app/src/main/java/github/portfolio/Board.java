@@ -35,4 +35,31 @@ public class Board {
         }
         return cells[row][col] == null;
     }
+
+    /** Prints the board to stdout with row/column guides. */
+    public void display() {
+        System.out.println();
+        System.out.println("    1   2   3");
+        System.out.println("  +---+---+---+");
+        for (int row = 0; row < SIZE; row++) {
+            System.out.print((row + 1) + " |");
+            for (int col = 0; col < SIZE; col++) {
+                String symbol = cells[row][col];
+                System.out.print(" " + (symbol != null ? symbol : " ") + " |");
+            }
+            System.out.println();
+            System.out.println("  +---+---+---+");
+        }
+        System.out.println();
+    }
+
+    /** Returns true if every cell on the board has been filled. */
+    public boolean isFull() {
+        for (String[] row : cells) {
+            for (String cell : row) {
+                if (cell == null) return false;
+            }
+        }
+        return true;
+    }
 }
