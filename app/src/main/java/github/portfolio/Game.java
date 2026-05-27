@@ -81,11 +81,16 @@ public class Game {
 
     /**
      * Returns true when every cell is occupied and there is no winner.
-     * (Intentionally simple — will be refactored in feature/player-input.)
+     * Uses a nested loop to scan every cell for a null (empty) slot.
      */
     public boolean isDraw() {
         if (checkWinner() != null) return false;
-        return board.isFull();
+        for (String[] row : board.getCells()) {
+            for (String cell : row) {
+                if (cell == null) return false;
+            }
+        }
+        return true;
     }
 
     /** Convenience method: returns the overall game state. */
