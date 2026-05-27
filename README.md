@@ -62,3 +62,44 @@ A fast-forward merge simply moves the branch pointer forward — no real combini
 A **three-way merge** occurs when both branches have diverged: Git finds the common ancestor
 commit and combines the changes from both sides into a new merge commit. You can see this
 in the git log graph as two lines joining into one (`--no-ff` preserves this history).
+
+## Conflict Resolution
+
+**File conflicted:** `app/src/main/java/github/portfolio/Game.java`
+
+**Which method:** `isDraw()`
+
+**Cause:**
+- `main` refactored `isDraw()` to use a nested loop to scan for empty cells
+- `feature/player-input` refactored the same method to use Java Streams (`Arrays.stream().flatMap().allMatch()`)
+- Both changes targeted the same lines — Git could not auto-merge
+
+**How the conflict appeared in the file:**
+```
+<<<<<<< HEAD
+     * Uses a nested loop to scan every cell for a null (empty) slot.
+     */
+    public boolean isDraw() {
+        if (checkWinner() != null) return false;
+        for (String[] row : board.getCells()) {
+            for (String cell : row) {
+                if (cell == null) return false;
+            }
+        }
+        return true;
+=======
+     * Uses a stream to check that no null cell remains on the board.
+     */
+    public boolean isDraw() {
+        if (checkWinner() != null) return false;
+        return Arrays.stream(board.getCells())
+                .flatMap(Arrays::stream)
+                .allMatch(Objects::nonNull);
+>>>>>>> feature/player-input
+    }
+```
+
+**Resolution:** Kept the loop-based implementation for clarity and readability.
+The stream approach is more concise but less immediately readable for developers
+unfamiliar with Java Streams. The conflict markers were removed and the file was
+staged with `git add`, then the merge was completed with `git commit`.
