@@ -1,5 +1,8 @@
 package github.portfolio;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 /**
  * Manages the state and flow of a Tic Tac Toe game.
  * Tracks whose turn it is and evaluates the board after each move.
@@ -81,11 +84,13 @@ public class Game {
 
     /**
      * Returns true when every cell is occupied and there is no winner.
-     * (Intentionally simple — will be refactored in feature/player-input.)
+     * Uses a stream to check that no null cell remains on the board.
      */
     public boolean isDraw() {
         if (checkWinner() != null) return false;
-        return board.isFull();
+        return Arrays.stream(board.getCells())
+                .flatMap(Arrays::stream)
+                .allMatch(Objects::nonNull);
     }
 
     /** Convenience method: returns the overall game state. */
